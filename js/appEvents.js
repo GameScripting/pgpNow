@@ -50,14 +50,18 @@ function AppEvents(){
 			sessionKey,
 			[publicKey]);
 			
+		var error = false;
 		for(var i in decrypted.validSignatures){
 			var sig = decrypted.validSignatures[i];
 			if(!sig){
-				toastr.error("The message has been altered!");
+				toastr.error("Signature is not valid for " + app.viewModel.selectedPartner().name);
+				error = true;
 			}
 		}
 			
 		decryptTextArea.val(decrypted.text);
-		toastr.success("Decrypted message, everything ok.");
+		if(!error){
+			toastr.success("Decrypted message, everything ok.");
+		}
 	};
 }
