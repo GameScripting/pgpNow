@@ -54,7 +54,7 @@ function AppEvents(){
 		for(var i in decrypted.validSignatures){
 			var sig = decrypted.validSignatures[i];
 			if(!sig){
-				toastr.error("Signature is not valid for " + app.viewModel.selectedPartner().name);
+				toastr.error("Signature is not valid for " + app.viewModel.selectedPartner().name());
 				error = true;
 			}
 		}
