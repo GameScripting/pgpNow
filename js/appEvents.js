@@ -53,10 +53,11 @@ function AppEvents(){
 		for(var i in decrypted.validSignatures){
 			var sig = decrypted.validSignatures[i];
 			if(!sig){
-				alert("The message has been altered!");
+				toastr.error("The message has been altered!");
 			}
 		}
 			
 		decryptTextArea.val(decrypted.text);
+		toastr.success("Decrypted message, everything ok.");
 	};
 }
