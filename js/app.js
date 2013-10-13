@@ -26,6 +26,17 @@ function App(){
 	};
 }
 
+function setupPopups(){
+	
+	$('#showOwnKeysButton').magnificPopup({
+	  items: {
+	      src: $("#ownKeysBox"),
+	      type: 'inline',
+	      midClick: true
+	  }
+	});
+}
+
 function sampleData(){
 	
 	var newPublicKey = function(){
@@ -46,10 +57,9 @@ $(function(){
 	window.app = new App();
 	window.appEvents = new AppEvents();
 	
-	openpgp.init();
-	
+	setupPopups();	
+	openpgp.init();	
 	app.loadViewModel();
-	
 	ko.applyBindings(app.viewModel);
 	
 	sampleData();
