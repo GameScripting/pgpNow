@@ -18,12 +18,32 @@ function App(){
 		var publicKey = keyPair.publicKeyArmored;
 		
 		self.viewModel = new ViewModel(publicKey, privateKey);
-	};	
+	};
 	
 	self.addPartner = function(name, publicKey){
-		openpgp.keyring.importPublicKey(publicKey);
-		self.viewModel.people.push(new Partner(name, publicKey));
+		var newPartner = new Partner(name, publicKey);
+		self.viewModel.people.push(newPartner);
+		return newPartner;
 	};
+}
+
+function setupPopups(){
+	
+	$('#showOwnKeysButton').magnificPopup({
+	  items: {
+	      src: $("#ownKeysBox"),
+	      type: 'inline',
+	      midClick: true
+	  }
+	});
+	
+	$('#editSelectedPartner').magnificPopup({
+	  items: {
+	      src: $("#editPartner"),
+	      type: 'inline',
+	      midClick: true
+	  }
+	});
 }
 
 function sampleData(){
@@ -46,11 +66,10 @@ $(function(){
 	window.app = new App();
 	window.appEvents = new AppEvents();
 	
-	openpgp.init();
-	
+	setupPopups();	
+	openpgp.init();	
 	app.loadViewModel();
-	
 	ko.applyBindings(app.viewModel);
 	
-	sampleData();
+	//sampleData();
 });

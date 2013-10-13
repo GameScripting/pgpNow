@@ -3,6 +3,11 @@ function AppEvents(){
 	
 	self.encryptForPartner = function(){
 		
+		if(!app.viewModel.selectedPartner()){
+			toastr.error("Please select a partner first");
+			return;
+		}
+		
 		var publicKeyString = app.viewModel.selectedPartner().publicKey();
 		var privateKeyString = app.viewModel.own.privateKey();
 						
@@ -22,6 +27,11 @@ function AppEvents(){
 	};
 	
 	self.decryptFromPartner = function(){
+		
+		if(!app.viewModel.selectedPartner()){
+			toastr.error("Please select a partner to verify the signature against.");
+			return;
+		}
 		
 		var publicKeyString = app.viewModel.selectedPartner().publicKey();
 		var privateKeyString = app.viewModel.own.privateKey();
@@ -63,5 +73,23 @@ function AppEvents(){
 		if(!error){
 			toastr.success("Decrypted message, everything ok.");
 		}
+	};
+	
+	self.addNewPartner = function(){
+				
+		var partner = app.addPartner("", "");
+		app.viewModel.selectedPartner(partner);
+		$("#editSelectedPartner").click();
+	};
+	
+	self.removeSelectedPartner = function(){
+		var selectedPartner = app.viewModel.selectedPartner();
+		
+		if(!selectedPartner){
+			toastr.error("Please select a partner to remove");
+			return;
+		}
+		
+		app.viewModel.people.remove(selectedPartner); 
 	};
 }
