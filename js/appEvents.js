@@ -74,22 +74,4 @@ function AppEvents(){
 			toastr.success("Decrypted message, everything ok.");
 		}
 	};
-	
-	self.addNewPartner = function(){
-				
-		var partner = app.addPartner("", "");
-		app.viewModel.selectedPartner(partner);
-		$("#editSelectedPartner").click();
-	};
-	
-	self.removeSelectedPartner = function(){
-		var selectedPartner = app.viewModel.selectedPartner();
-		
-		if(!selectedPartner){
-			toastr.error("Please select a partner to remove");
-			return;
-		}
-		
-		app.viewModel.people.remove(selectedPartner); 
-	};
 }
