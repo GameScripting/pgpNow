@@ -5,8 +5,8 @@ function showMessages(content){
 function App(){
 	var self = this;
 	
-	self.load = function () {
-		appStorage.loadState();
+	self.load = function (cb) {
+		appStorage.loadState(cb);
 	};
 	
 	self.addPartner = function(name, publicKey){
@@ -27,22 +27,6 @@ function setupPopups(){
 	});
 }
 
-function sampleData(){
-	
-	var newPublicKey = function(){
-		return openpgp.generate_key_pair(
-				1, // RSA
-				"512",
-				"Test",
-				"").publicKeyArmored;
-	};
-	
-	app.addPartner("Me", app.viewModel.own.publicKey());
-	app.addPartner("Jasmin", newPublicKey());
-	app.addPartner("Andre", newPublicKey());
-	app.addPartner("Joachim", newPublicKey());
-}
-
 $(function(){
 	window.app = new App();
 	window.appEvents = new AppEvents();
@@ -52,8 +36,7 @@ $(function(){
 	
 	setupPopups();	
 	openpgp.init();	
-	app.load();
-	ko.applyBindings(app.viewModel);
-	
-	//sampleData();
+	app.load(function(){
+		ko.applyBindings(app.viewModel);		
+	});
 });

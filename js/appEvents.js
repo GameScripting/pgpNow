@@ -42,7 +42,14 @@ function AppEvents(){
 		var decryptTextArea = $("#decryptTextArea");
 		var encryptedText = decryptTextArea.val();
 		
-		var message = openpgp.read_message(encryptedText)[0];
+		var message;		
+		try {
+			message = openpgp.read_message(encryptedText)[0];
+		} catch(err) {
+			toastr.error("Could not parse message, it seems to be broken :(");
+			return;
+		}
+		
 		var sessionKey = message.sessionKeys[0];
 		
 		// bugfix
@@ -55,10 +62,16 @@ function AppEvents(){
 			publicKey.obj = publicKey;
 		}
 		
-		var decrypted = message.decryptAndVerifySignature(
-			privateKey,
-			sessionKey,
-			[publicKey]);
+		var decrypted;
+		try {		
+			decrypted = message.decryptAndVerifySignature(
+				privateKey,
+				sessionKey,
+				[publicKey]);
+		} catch(err) {
+			toastr.error("Could not decrypt the message. Its not for you, sorry.");
+			return;
+		}
 			
 		var error = false;
 		for(var i in decrypted.validSignatures){

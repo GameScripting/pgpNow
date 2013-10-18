@@ -4,11 +4,7 @@ function AppStorage(){
 	var STATE = "state";	
 	
 	function createNew(name){
-		
-		if(!confirm("First of all we need to generate a private key for you. This will take some time and make your browser hang (you maybe can't use it at all!')")){
-			return;
-		}
-		
+
 		var keyPair = 
 			openpgp.generate_key_pair(
 				1, // RSA
@@ -21,7 +17,16 @@ function AppStorage(){
 		
 		var viewModel = new ViewModel(publicKey, privateKey);		
 		return viewModel;
-	};
+	}
+	
+	function showEnterNewUserNameModal(cb){
+		modalManager.showModal($("#createNewKeys"));
+		
+		$("#setNewUsername").click(function(){
+			var username = $("#newUsernameInput").val();
+			if(cb) cb(username);
+		});
+	}
 	
 	self.saveState = function(){
 		
@@ -36,14 +41,20 @@ function AppStorage(){
 			partners: partners
 		};
 		$.jStorage.set(STATE, state);
-	};
+	};	
 	
-	self.loadState = function(){
+	self.loadState = function(cb){
 		var state = $.jStorage.get(STATE);
 		
-		if(!state){			
-			app.viewModel = createNew("Testuer");
-			self.saveState();		
+		if(!state){
+			showEnterNewUserNameModal(function(username){
+				
+				modalManager.closeModal();				
+				app.viewModel = createNew(username);
+				self.saveState();
+				
+				if(cb) cb();
+			});
 		} else {
 			
 			var partners = ko.mapping.fromJS(state.partners)();
@@ -53,6 +64,9 @@ function AppStorage(){
 				partners);
 				
 			app.viewModel = viewModel;
+			if(cb) cb();
 		}
+		
+		
 	};
 }
