@@ -20,10 +20,28 @@ function AppStorage(){
 	}
 	
 	function showEnterNewUserNameModal(cb){
-		modalManager.showModal($("#createNewKeys"));
+		
+		var userNameEntered = false;
+		var showModal = function(){
+			modalManager.showModal($("#createNewKeys"), {
+				close: function(){
+					if(!userNameEntered){
+						setTimeout(function(){
+							showModal();
+						},0);
+					}
+				}
+			});
+		};
+		showModal();
 		
 		$("#setNewUsername").click(function(){
 			var username = $("#newUsernameInput").val();
+			
+			if(username){
+				userNameEntered = true;
+			}
+			
 			if(cb) cb(username);
 		});
 	}
