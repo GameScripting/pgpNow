@@ -132,15 +132,18 @@
 			<p>To get started just enter your name so others know who you are (it will be stored in the public key so others can verify the messages)</p>			
 		</div>
 		
-		<form onsubmit="return false;">
+		<form id="setNewUsernameForm">
 			<div class="row">
 				<label><b>Enter your name</b></label>
 			</div>
 			<div class="row">
 				<input id="newUsernameInput" type="text" />
 			</div>			
-			<div class="row pad-top">							
-				<input id="setNewUsername" type="submit" class="center" value="Save my name &amp; start pgpNow" />				
+			<div class="row pad-top">
+				<p><small><b>NOTE: </b>Generating the keys may take some seconds. Your browser may hang during that time.</small></p>
+			</div>
+			<div class="row">
+				<input id="setNewUsernameButton" type="submit" class="center" value="Save my name &amp; start pgpNow" />
 			</div>		
 		</form>
 	</div>

@@ -4,7 +4,6 @@ function AppStorage(){
 	var STATE = "state";	
 	
 	function createNew(name){
-
 		var keyPair = 
 			openpgp.generate_key_pair(
 				1, // RSA
@@ -20,6 +19,10 @@ function AppStorage(){
 	}
 	
 	function showEnterNewUserNameModal(cb){
+		var newUsernameInput = $("#newUsernameInput");
+		newUsernameInput.val("");
+
+		setTimeout(function(){ newUsernameInput.select();},250);
 		
 		var userNameEntered = false;
 		var showModal = function(){
@@ -34,22 +37,23 @@ function AppStorage(){
 			});
 		};
 		showModal();
-		
-		$("#setNewUsername").click(function(){
-			var username = $("#newUsernameInput").val();
-			
+
+		$("#setNewUsernameForm").submit(function(){
+			var username = newUsernameInput.val();
 			if(username){
 				userNameEntered = true;
+				$("#setNewUsernameButton").attr("disabled", true);
+				setTimeout(function(){
+					if(cb) cb(username);
+				},100);
 			}
 			
-			if(cb) cb(username);
+			return false;
 		});
 	}
 	
 	self.saveState = function(){
-		
 		var vm = app.viewModel;
-		
 		var partners = ko.mapping.toJS(vm.partners());
 		var state = {
 			own: {
@@ -63,10 +67,8 @@ function AppStorage(){
 	
 	self.loadState = function(cb){
 		var state = $.jStorage.get(STATE);
-		
 		if(!state){
 			showEnterNewUserNameModal(function(username){
-				
 				modalManager.closeModal();				
 				app.viewModel = createNew(username);
 				self.saveState();
@@ -74,7 +76,6 @@ function AppStorage(){
 				if(cb) cb();
 			});
 		} else {
-			
 			var partners = ko.mapping.fromJS(state.partners)();
 			var viewModel = new ViewModel(
 				state.own.publicKey,
@@ -84,7 +85,5 @@ function AppStorage(){
 			app.viewModel = viewModel;
 			if(cb) cb();
 		}
-		
-		
 	};
 }
