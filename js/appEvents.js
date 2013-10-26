@@ -29,7 +29,7 @@ function AppEvents(){
 	};
 	
 	self.decryptFromPartner = function(){
-		
+
 		if(!app.viewModel.selectedPartner()){
 			toastr.error("Please select a partner to verify the signature against.");
 			return;
@@ -102,5 +102,10 @@ function AppEvents(){
 		if(!error){
 			toastr.success("Decrypted message, everything ok.");
 		}
+	};
+
+	self.displayPrivateKey = function(){
+		$("#privateKeyContainer").removeClass("hidden");
+		$("#showPrivateKeyLink").addClass("hidden");
 	};
 }

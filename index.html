@@ -83,23 +83,27 @@
 	
 	<div id="ownKeysBox" class="mfp-hide white-popup">
 		<div class="row">
-			<div class="one half half-pad-right">
-				<div class="row">
-					<label>Public (give this to your friends)</label>
-				</div>
-				<div class="row">
-					<textarea onclick="this.select()"
-					          data-bind="value: own.publicKey"></textarea>
-				</div>
+			<div class="row">
+				<label title="You can give this to anybody"><b>Public key</b></label>
 			</div>
-			<div class="one half half-pad-left">
-				<div class="row">
-					<label>Private (give this to NOBODY!)</label>
-				</div>
-				<div class="row">
-					<textarea onclick="this.select()"
-					          data-bind="value: own.privateKey"></textarea>
-				</div>
+			<div class="row">
+				<textarea onclick="this.select()"
+				          data-bind="value: own.publicKey"></textarea>
+			</div>
+		</div>
+		<div class="row pad-top">
+			<p><a id="showPrivateKeyLink" onclick="appEvents.displayPrivateKey()" href="#">Show my private key</a></p>
+		</div>
+		<div id="privateKeyContainer" class="hidden row pad-top">
+			<div class="row">
+				<label><b>Private key</b></label>
+			</div>
+			<div class="row">
+				<p class="red box">This is your private key. You must <b>NEVER</b> give it to <b>anyone!</b></p>
+			</div>
+			<div class="row">
+				<textarea onclick="this.select()"
+				          data-bind="value: own.privateKey"></textarea>
 			</div>
 		</div>
 	</div>
