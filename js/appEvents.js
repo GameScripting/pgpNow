@@ -7,19 +7,21 @@ function AppEvents(){
 			toastr.error("Please select a partner first");
 			return;
 		}
-		
+
 		var publicKeyString = app.viewModel.selectedPartner().publicKey();
+		var ownPublicKeyString = app.viewModel.own.publicKey();
 		var privateKeyString = app.viewModel.own.privateKey();
 						
 		var publicKey = openpgp.read_publicKey(publicKeyString)[0];
-		var privateKey = openpgp.read_privateKey(privateKeyString)[0];		 
-		
+		var ownPublicKey = openpgp.read_publicKey(ownPublicKeyString)[0];
+		var privateKey = openpgp.read_privateKey(privateKeyString)[0];
+
 		var encryptTextArea = $("#encryptTextArea");
 		var orignalText = encryptTextArea.val();
 				
 		var encrypted = openpgp.write_signed_and_encrypted_message(
 			privateKey,
-			[publicKey],
+			[ownPublicKey,publicKey],
 			orignalText);
 			
 		encryptTextArea.val(encrypted);
@@ -34,9 +36,11 @@ function AppEvents(){
 		}
 		
 		var publicKeyString = app.viewModel.selectedPartner().publicKey();
+		var ownPublicKeyString = app.viewModel.own.publicKey();
 		var privateKeyString = app.viewModel.own.privateKey();
 						
 		var publicKey = openpgp.read_publicKey(publicKeyString)[0];
+		var ownPublicKey = openpgp.read_publicKey(ownPublicKeyString)[0];
 		var privateKey = openpgp.read_privateKey(privateKeyString)[0];		 		
 		
 		var decryptTextArea = $("#decryptTextArea");
@@ -50,8 +54,16 @@ function AppEvents(){
 			return;
 		}
 		
-		var sessionKey = message.sessionKeys[0];
-		
+		// find the correct session key for the own the private key
+		var sessionKey;
+		for(var i in message.sessionKeys) {
+			var key = message.sessionKeys[i];
+			if(privateKey.privateKeyPacket.publicKey.getKeyId() == key.keyId.bytes){
+				sessionKey = key;
+				break;
+			}
+		}
+
 		// bugfix
 		if(!privateKey.keymaterial){
 			privateKey.keymaterial = privateKey.privateKeyPacket;
@@ -62,12 +74,16 @@ function AppEvents(){
 			publicKey.obj = publicKey;
 		}
 		
+		if(!ownPublicKey.obj){
+			ownPublicKey.obj = ownPublicKey;
+		}
+
 		var decrypted;
 		try {		
 			decrypted = message.decryptAndVerifySignature(
 				privateKey,
 				sessionKey,
-				[publicKey]);
+				[ownPublicKey,publicKey]);
 		} catch(err) {
 			toastr.error("Could not decrypt the message. Its not for you, sorry.");
 			return;
