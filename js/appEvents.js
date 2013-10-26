@@ -106,6 +106,6 @@ function AppEvents(){
 
 	self.displayPrivateKey = function(){
 		$("#privateKeyContainer").removeClass("hidden");
-		$("#showPrivateKeyLink").addClass("hidden");
+		$("#showPrivateKeyLinkContainer").addClass("hidden");
 	};
 }
