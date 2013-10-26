@@ -1,4 +1,4 @@
-function ViewModel(publicKey, privateKey){
+function ViewModel(publicKey, privateKey, partners){
 	var self = this;
 		
 	self.own = ko.mapping.fromJS({
@@ -6,8 +6,12 @@ function ViewModel(publicKey, privateKey){
 		privateKey: privateKey
 	});
 	
-	self.people = ko.observableArray();
+	self.partners = ko.observableArray(partners);
 	self.selectedPartner = ko.observable();
+	
+	self.tmp = {
+		editPartnerPublicKey: ko.observable()
+	};
 }
 
 function Partner(name, publicKey){

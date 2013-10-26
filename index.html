@@ -27,14 +27,13 @@
 				<label>People</label>
 			</div>
 			<div class="row">
-				<select size="4" data-bind="options: people,
+				<select size="4" data-bind="options: partners,
 								   optionsText: 'name',
 								   value: selectedPartner"></select>
 			</div>
 			<div class="row">				
-				<button onclick="appEvents.addNewPartner()" class="one third">+</button>
-				<button id="editSelectedPartner" class="one third">Edit</button>
-				<button onclick="appEvents.removeSelectedPartner()" class="one third">-</button>		
+				<button onclick="partnerManager.showNewPartnerModal()" class="one half">+</button>
+				<button onclick="partnerManager.removeSelected()" class="one half">-</button>		
 			</div>
 		</div>
 		<div class="pad-left four fifth">
@@ -105,36 +104,52 @@
 		</div>
 	</div>
 	
-	<div id="editPartner" class="mfp-hide white-popup">
-		<!-- ko if: selectedPartner() -->
-		<div class="row">
-			<label>Display name</label>
-		</div>
-		<div class="row">
-			<input type="text" data-bind="value: selectedPartner().name" />
-		</div>
+	<div id="editPartner" class="mfp-hide white-popup">		
 		<div class="row">
 			<label>Public key</label>
 		</div>
 		<div class="row">			
-			<textarea onclick="this.select()"
-			          data-bind="value: selectedPartner().publicKey"></textarea>			
+			<textarea id="partnerPublicKey"
+			          data-bind="value: tmp.editPartnerPublicKey"></textarea>			
 		</div>
 		<div class="row pad-top">
-			<button onclick="$.magnificPopup.close()">Close</button>
+			<div class="one half half-pad-right">
+				<button class="block" onclick="partnerManager.savePartner()">Save Partner</button>
+			</div>
+			<div class="one half half-pad-left">
+				<button class="block" onclick="modalManager.closeModal()">Cancel</button>
+			</div>
+		</div>		
+	</div>
+	
+	<div id="createNewKeys" class="mfp-hide white-popup">		
+		<div class="row">
+			<h1 style="font-size: 1.5em;">Welcome to pgpNow :)</h1>
 		</div>
-		<!-- /ko -->
+		<div class="row">
+			<p>With pgpNow you have secure PGP-based encryption right in your browser. I don't have to tell you, that it actually it open source, do I?</p>
+			<p>To get started just enter your name so others know who you are (it will be stored in the public key so others can verify the messages)</p>			
+		</div>
+		
+		<form id="setNewUsernameForm">
+			<div class="row">
+				<label><b>Enter your name</b></label>
+			</div>
+			<div class="row">
+				<input id="newUsernameInput" type="text" />
+			</div>			
+			<div class="row pad-top">
+				<p><small><b>NOTE: </b>Generating the keys may take some seconds. Your browser may hang during that time.</small></p>
+			</div>
+			<div class="row">
+				<input id="setNewUsernameButton" type="submit" class="center" value="Save my name &amp; start pgpNow" />
+			</div>		
+		</form>
 	</div>
 		
 	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
-	<script type="text/javascript" src="js/openpgp.min.js"></script>
 	
-	<script type="text/javascript" src="js/knockout-2.3.0.js"></script>
-	<script type="text/javascript" src="js/knockout-mapping-2.4.1.js"></script>
-	
-	<script type="text/javascript" src="js/toastr.min.js"></script>
-	<script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script>
-	
+	<!-- start openpgpjs -->
 	<script type="text/javascript" src="openpgpjs/src/ciphers/hash/sha.js"></script>
 	<script type="text/javascript" src="openpgpjs/src/ciphers/hash/md5.js"></script>
 	<script type="text/javascript" src="openpgpjs/src/ciphers/hash/ripe-md.js"></script>
@@ -191,8 +206,21 @@
 	<script type="text/javascript" src="openpgpjs/src/openpgp.msg.privatekey.js"></script>
 	<script type="text/javascript" src="openpgpjs/src/openpgp.msg.publickey.js"></script>
 	<script type="text/javascript" src="openpgpjs/src/util/util.js"></script>
+	<!-- end openpgpjs -->
 	
+	<script type="text/javascript" src="js/knockout-2.3.0.js"></script>
+	<script type="text/javascript" src="js/knockout-mapping-2.4.1.js"></script>
+	
+	<script type="text/javascript" src="js/jstorage.min.js"></script>
+	<script type="text/javascript" src="js/appStorage.js"></script>
+	
+	<script type="text/javascript" src="js/toastr.min.js"></script>
+	<script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script>	
+
 	<script type="text/javascript" src="js/viewModel.js"></script>
+	<script type="text/javascript" src="js/modalManager.js"></script>
+	<script type="text/javascript" src="js/partnerManager.js"></script>
+	
 	<script type="text/javascript" src="js/appEvents.js"></script>
 	<script type="text/javascript" src="js/popupManager.js"></script>
 	<script type="text/javascript" src="js/app.js"></script>
