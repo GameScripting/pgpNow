@@ -4,7 +4,7 @@ function PartnerManager(){
 	self.showNewPartnerModal = function() {
 		
 		app.viewModel.tmp.editPartnerPublicKey("");
-		modalManager.showModal($("#editPartner"));
+    $("#editPartner").modal('show');
 		
 		setTimeout(function(){
 			$("#partnerPublicKey").focus();

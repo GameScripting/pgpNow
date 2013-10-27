@@ -45,6 +45,27 @@
         </div>
       </div>
     </div>
+    <div id="editPartner" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Add a contact</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="partnerPublicKey">Public key</label>
+              <textarea id="partnerPublicKey"
+                        data-bind="value: tmp.editPartnerPublicKey" class="form-control" rows="25"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button class="btn btn-primary" onclick="partnerManager.savePartner()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <header class="navbar navbar-default">
       <div class="container">
@@ -63,6 +84,7 @@
 
         <div class="col-sm-4">
           <p><strong>My contacts</strong></p>
+
           <div class="list-group">
             <a href="#" class="list-group-item">Cras justo odio</a>
             <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
@@ -92,7 +114,7 @@
           <!-- TODO: Am I blind or is there no "else" in knockout?! -->
           <!-- ko if: !selectedPartner() -->
           <p>
-            Please select at least one person to encrypt a message. If you want to decrypt a message, it is
+            Please select at least one contact to encrypt a message. If you want to decrypt a message, it is
             <strong>highly recommended</strong> to select a person to be able to verify the signature.
           </p>
           <!-- /ko -->
