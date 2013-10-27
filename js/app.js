@@ -33,6 +33,7 @@ $(function(){
 	window.modalManager = new ModalManager();
 	window.partnerManager = new PartnerManager();
 	window.appStorage = new AppStorage();
+	window.cryptor = new Cryptor();
 	
 	setupPopups();	
 	openpgp.init();	
