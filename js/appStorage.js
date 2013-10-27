@@ -40,30 +40,31 @@ function AppStorage() {
         $(this).find("input:submit").val("Generating key…");
 
         // TODO: Das hier asynchron?
-        app.viewModel = createNew($("#newUsernameInput").val());
-        self.saveState();
-        $("#createNewKeys").modal("hide");
+        setTimeout(function () {
+          app.viewModel = createNew($("#newUsernameInput").val());
+          self.saveState();
+          $("#createNewKeys").modal("hide");
+        }, 100);
         return false;
       });
-        /*			showEnterNewUserNameModal(function(username){
-         modalManager.closeModal();
-         app.viewModel = createNew(username);
-         self.saveState();
+      /*			showEnterNewUserNameModal(function(username){
+       modalManager.closeModal();
+       app.viewModel = createNew(username);
+       self.saveState();
 
-         if(cb) cb();
-         });*/
-      }
-    else
-      {
-        var partners = ko.mapping.fromJS(state.partners)();
-        var viewModel = new ViewModel(
-          state.own.publicKey,
-          state.own.privateKey,
-          partners);
-
-        app.viewModel = viewModel;
-        if (cb) cb();
-      }
+       if(cb) cb();
+       });*/
     }
-    ;
+    else {
+      var partners = ko.mapping.fromJS(state.partners)();
+      var viewModel = new ViewModel(
+        state.own.publicKey,
+        state.own.privateKey,
+        partners);
+
+      app.viewModel = viewModel;
+      if (cb) cb();
+    }
   }
+  ;
+}
