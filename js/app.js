@@ -16,7 +16,7 @@ function App(){
 	};
 }
 
-function setupPopups(){
+function setupDom(){
 	
 	$('#showOwnKeysButton').magnificPopup({
 	  items: {
@@ -25,6 +25,19 @@ function setupPopups(){
 	      midClick: true
 	  }
 	});
+
+	// ensure the browser will not open dragged files
+	window.addEventListener("dragover",function(e){
+	  e = e || event;
+	  e.preventDefault();
+	},false);
+	window.addEventListener("drop",function(e){
+	  e = e || event;
+	  e.preventDefault();
+	},false);
+
+	fileCryptor.setupEncryptDrop($("#fileEncryptionDragArea"));
+	fileCryptor.setupDecryptDrop($("#fileDecryptionDragArea"));
 }
 
 $(function(){
@@ -34,9 +47,10 @@ $(function(){
 	window.partnerManager = new PartnerManager();
 	window.appStorage = new AppStorage();
 	window.cryptor = new Cryptor();
+	window.fileCryptor = new FileCryptor();
 	
-	setupPopups();	
-	openpgp.init();	
+	setupDom();
+	openpgp.init();
 	app.load(function(){
 		ko.applyBindings(app.viewModel);		
 	});

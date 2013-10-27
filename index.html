@@ -14,8 +14,6 @@
 <body>
 	
 	<div class="padded">
-		<div class="row" id="errors"></div>
-		
 		<div class="one fifth">
 			<div class="row">
 				<label><b>Keys</b></label>
@@ -37,13 +35,12 @@
 			</div>
 		</div>
 		<div class="pad-left four fifth">
-			<div>
+			<div class="row">
 				<div class="row">
 					<label><b>Encryption</b></label>				
 				</div>
 				<div class="row">				
 					<div>
-						
 						<label>
 							<span>Encrypt</span>
 							<!-- ko if: selectedPartner() -->
@@ -54,7 +51,16 @@
 					</div>					
 				</div>		
 				<div class="row">
-					<textarea id="encryptTextArea"></textarea>
+					<div class="two third">
+						<textarea id="encryptTextArea"></textarea>
+					</div>
+					<div class="one third pad-left">
+						<div class="relative fileCryptionDragArea" id="fileEncryptionDragArea">
+							<div class="fileCryptionDragAreaContent absolute middle center">
+								<p>Drag to encrypt</p>
+							</div>
+						</div>
+					</div>
 				</div>	
 				<div class="row half-pad-top">
 					<button onclick="appEvents.encryptForPartner()">Encrypt</button>
@@ -72,7 +78,16 @@
 					</label>			
 				</div>		
 				<div class="row">
-					<textarea id="decryptTextArea"></textarea>
+					<div class="two third">
+						<textarea id="decryptTextArea"></textarea>
+					</div>
+					<div class="one third pad-left">
+						<div class="relative fileCryptionDragArea" id="fileDecryptionDragArea">
+							<div class="fileCryptionDragAreaContent absolute middle center">
+								<p>Drag to decrypt</p>
+							</div>
+						</div>
+					</div>
 				</div>	
 				<div class="row half-pad-top">
 					<button onclick="appEvents.decryptFromPartner()">Decrypt</button>
@@ -162,6 +177,10 @@
 	
 	<script type="text/javascript" src="js/toastr.min.js"></script>
 	<script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script>
+
+	<script type="text/javascript" src="js/ArrayBufferBase64.js"></script>
+	<script type="text/javascript" src="js/FileSaver.min.js"></script>
+	<script type="text/javascript" src="js/fileCryptor.js"></script>
 		
 	<script type="text/javascript" src="js/viewModel.js"></script>
 	<script type="text/javascript" src="js/modalManager.js"></script>
