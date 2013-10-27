@@ -85,12 +85,8 @@
         <div class="col-sm-4">
           <p><strong>My contacts</strong></p>
 
-          <div class="list-group">
-            <a href="#" class="list-group-item">Cras justo odio</a>
-            <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
-            <a href="#" class="list-group-item">Morbi leo risus</a>
-            <a href="#" class="list-group-item">Porta ac consectetur ac</a>
-            <a href="#" class="list-group-item">Vestibulum at eros</a>
+          <div class="list-group" data-bind="options: partners">
+            <a href="#" class="list-group-item" data-bind="text: name"></a>
           </div>
 
 
