@@ -26,8 +26,8 @@ function PartnerManager(){
 		app.addPartner(partnerName, publicKeyString);
 		appStorage.saveState();
 				
-		toastr.success('Added partner "' + partnerName + '" to the partner list.');		
-		modalManager.closeModal();
+		toastr.success('Added partner "' + partnerName + '" to the partner list.');
+    $('#editPartner').modal('hide');
 	};
 	
 	self.removeSelected = function(){

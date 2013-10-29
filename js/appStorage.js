@@ -57,6 +57,16 @@ function AppStorage() {
     }
     else {
       var partners = ko.mapping.fromJS(state.partners)();
+      partners.forEach(function(partner) {
+        partner.active(false);
+        partner.toggle = function() {
+          if (partner.active()) {
+            partner.active(false);
+          } else {
+            partner.active(true);
+          }
+        };
+      });
       var viewModel = new ViewModel(
         state.own.publicKey,
         state.own.privateKey,
