@@ -3,7 +3,11 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+
     <title>pgpNow - Instant PGP encryption and decryption in your browser</title>
+    <meta name="description" content="With pgpNow you have secure PGP-based encryption right in your browser. The en- and decryption is all done inside of your local browser, you don't have to trust anybody. If you don't trust me with the code, just fork away and assure yourself. It's open source under MIT licence.">
+    <meta name="author" content="Daniel Huhn">
+    <meta name="keywords" content="pgp encryption browser secure open source decryption instant offline MIT licence">
         
     <link type="text/css" rel="stylesheet" href="css/groundwork.css" />
     <link type="text/css" rel="stylesheet" href="css/toastr.min.css" />
@@ -27,7 +31,7 @@
 			<div class="row">
 				<select size="4" data-bind="options: partners,
 								   optionsText: 'name',
-								   value: selectedPartner"></select>
+								   value: selectedPartner"></select>
 			</div>
 			<div class="row">				
 				<button onclick="partnerManager.showNewPartnerModal()" class="one half">+</button>
