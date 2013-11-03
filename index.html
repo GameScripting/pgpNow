@@ -16,136 +16,136 @@
     <link type="text/css" rel="stylesheet" href="css/style.css" />    
 </head>
 <body>
-	
-	<div class="padded">
-		<div class="one fifth">
-			<div class="row">
-				<label><b>Keys</b></label>
-			</div>
-			<div class="row">
-				<button id="showOwnKeysButton" class="block">Show my keys</button>
-			</div>
-			<div class="pad-top row">
-				<label>People</label>
-			</div>
-			<div class="row">
-				<select size="4" data-bind="options: partners,
-								   optionsText: 'name',
-								   value: selectedPartner"></select>
-			</div>
-			<div class="row">				
-				<button onclick="partnerManager.showNewPartnerModal()" class="one half">+</button>
-				<button onclick="partnerManager.removeSelected()" class="one half">-</button>		
-			</div>
-		</div>
-		<div class="pad-left four fifth">
-			<div class="row">
-				<div class="row">
-					<label><b>Encryption</b></label>				
-				</div>
-				<div class="row">				
-					<div>
-						<label>
-							<span>Encrypt</span>
-							<!-- ko if: selectedPartner() -->
-							<span> for</span>
-							<b><span data-bind="text: selectedPartner().name"></span></b>
-							<!-- /ko -->
-						</label>
-					</div>					
-				</div>		
-				<div class="row">
-					<div class="two third">
-						<textarea id="encryptTextArea"></textarea>
-					</div>
-					<div class="one third pad-left">
-						<div class="relative fileCryptionDragArea" id="fileEncryptionDragArea">
-							<div class="fileCryptionDragAreaContent absolute middle center">
-								<p>Drag to encrypt</p>
-							</div>
-						</div>
-					</div>
-				</div>	
-				<div class="row half-pad-top">
-					<button onclick="appEvents.encryptForPartner()">Encrypt</button>
-				</div>
-			</div>
-			<div>				
-				<div class="row pad-top">	
-					<label>
-						<span>Decrypt</span>
-						<!-- ko if: selectedPartner() -->
-						<span> (checking signature for</span>
-						<b><span data-bind="text: selectedPartner().name"></span></b>
-						<span>)</span>
-						<!-- /ko -->
-					</label>			
-				</div>		
-				<div class="row">
-					<div class="two third">
-						<textarea id="decryptTextArea"></textarea>
-					</div>
-					<div class="one third pad-left">
-						<div class="relative fileCryptionDragArea" id="fileDecryptionDragArea">
-							<div class="fileCryptionDragAreaContent absolute middle center">
-								<p>Drag to decrypt</p>
-							</div>
-						</div>
-					</div>
-				</div>	
-				<div class="row half-pad-top">
-					<button onclick="appEvents.decryptFromPartner()">Decrypt</button>
-				</div>
-			</div>				
-		</div>
-	</div>
-	
-	<div id="ownKeysBox" class="mfp-hide white-popup">
-		<div class="row">
-			<div class="row">
-				<label title="You can give this to anybody"><b>Public key</b></label>
-			</div>
-			<div class="row">
-				<textarea onclick="this.select()"
-				          data-bind="value: own.publicKey"></textarea>
-			</div>
-		</div>
-		<div id="showPrivateKeyLinkContainer" class="row pad-top">
-			<p><a onclick="appEvents.displayPrivateKey()" href="#">Show my private key</a></p>
-		</div>
-		<div id="privateKeyContainer" class="hidden row pad-top">
-			<div class="row">
-				<label><b>Private key</b></label>
-			</div>
-			<div class="row">
-				<p class="red box">This is your private key. You must <b>NEVER</b> give it to <b>anyone!</b></p>
-			</div>
-			<div class="row">
-				<textarea onclick="this.select()"
-				          data-bind="value: own.privateKey"></textarea>
-			</div>
-		</div>
-	</div>
-	
-	<div id="editPartner" class="mfp-hide white-popup">		
-		<div class="row">
-			<label>Public key</label>
-		</div>
-		<div class="row">			
-			<textarea id="partnerPublicKey"
-			          data-bind="value: tmp.editPartnerPublicKey"></textarea>			
-		</div>
-		<div class="row pad-top">
-			<div class="one half half-pad-right">
-				<button class="block" onclick="partnerManager.savePartner()">Save Partner</button>
-			</div>
-			<div class="one half half-pad-left">
-				<button class="block" onclick="modalManager.closeModal()">Cancel</button>
-			</div>
-		</div>		
-	</div>
-	
-	<div id="createNewKeys" class="mfp-hide white-popup">
+    
+    <div class="padded">
+        <div class="one fifth">
+            <div class="row">
+                <label><b>Keys</b></label>
+            </div>
+            <div class="row">
+                <button id="showOwnKeysButton" class="block">Show my keys</button>
+            </div>
+            <div class="pad-top row">
+                <label>People</label>
+            </div>
+            <div class="row">
+                <select size="4" data-bind="options: partners,
+                                   optionsText: 'name',
+                                   value: selectedPartner"></select>
+            </div>
+            <div class="row">                
+                <button onclick="partnerManager.showNewPartnerModal()" class="one half">+</button>
+                <button onclick="partnerManager.removeSelected()" class="one half">-</button>        
+            </div>
+        </div>
+        <div class="pad-left four fifth">
+            <div class="row">
+                <div class="row">
+                    <label><b>Encryption</b></label>                
+                </div>
+                <div class="row">                
+                    <div>
+                        <label>
+                            <span>Encrypt</span>
+                            <!-- ko if: selectedPartner() -->
+                            <span> for</span>
+                            <b><span data-bind="text: selectedPartner().name"></span></b>
+                            <!-- /ko -->
+                        </label>
+                    </div>                    
+                </div>        
+                <div class="row">
+                    <div class="two third">
+                        <textarea id="encryptTextArea"></textarea>
+                    </div>
+                    <div class="one third pad-left">
+                        <div class="relative fileCryptionDragArea" id="fileEncryptionDragArea">
+                            <div class="fileCryptionDragAreaContent absolute middle center">
+                                <p>Drag to encrypt</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+                <div class="row half-pad-top">
+                    <button onclick="appEvents.encryptForPartner()">Encrypt</button>
+                </div>
+            </div>
+            <div>                
+                <div class="row pad-top">    
+                    <label>
+                        <span>Decrypt</span>
+                        <!-- ko if: selectedPartner() -->
+                        <span> (checking signature for</span>
+                        <b><span data-bind="text: selectedPartner().name"></span></b>
+                        <span>)</span>
+                        <!-- /ko -->
+                    </label>            
+                </div>        
+                <div class="row">
+                    <div class="two third">
+                        <textarea id="decryptTextArea"></textarea>
+                    </div>
+                    <div class="one third pad-left">
+                        <div class="relative fileCryptionDragArea" id="fileDecryptionDragArea">
+                            <div class="fileCryptionDragAreaContent absolute middle center">
+                                <p>Drag to decrypt</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+                <div class="row half-pad-top">
+                    <button onclick="appEvents.decryptFromPartner()">Decrypt</button>
+                </div>
+            </div>                
+        </div>
+    </div>
+    
+    <div id="ownKeysBox" class="mfp-hide white-popup">
+        <div class="row">
+            <div class="row">
+                <label title="You can give this to anybody"><b>Public key</b></label>
+            </div>
+            <div class="row">
+                <textarea onclick="this.select()"
+                          data-bind="value: own.publicKey"></textarea>
+            </div>
+        </div>
+        <div id="showPrivateKeyLinkContainer" class="row pad-top">
+            <p><a onclick="appEvents.displayPrivateKey()" href="#">Show my private key</a></p>
+        </div>
+        <div id="privateKeyContainer" class="hidden row pad-top">
+            <div class="row">
+                <label><b>Private key</b></label>
+            </div>
+            <div class="row">
+                <p class="red box">This is your private key. You must <b>NEVER</b> give it to <b>anyone!</b></p>
+            </div>
+            <div class="row">
+                <textarea onclick="this.select()"
+                          data-bind="value: own.privateKey"></textarea>
+            </div>
+        </div>
+    </div>
+    
+    <div id="editPartner" class="mfp-hide white-popup">        
+        <div class="row">
+            <label>Public key</label>
+        </div>
+        <div class="row">            
+            <textarea id="partnerPublicKey"
+                      data-bind="value: tmp.editPartnerPublicKey"></textarea>            
+        </div>
+        <div class="row pad-top">
+            <div class="one half half-pad-right">
+                <button class="block" onclick="partnerManager.savePartner()">Save Partner</button>
+            </div>
+            <div class="one half half-pad-left">
+                <button class="block" onclick="modalManager.closeModal()">Cancel</button>
+            </div>
+        </div>        
+    </div>
+    
+    <div id="createNewKeys" class="mfp-hide white-popup">
         <div id="welcomeGenerateNewKey">
             <div class="row">
                 <h1 style="font-size: 1.5em;">Welcome to pgpNow :)</h1>
@@ -186,30 +186,30 @@
                 <a onclick="appEvents.showWelcomeGenerateNewKey(); return false;" class="pull-right welcomeLink">Cancel</a>
             </div>
         </div>
-	</div>
-		
-	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
-	<script type="text/javascript" src="js/openpgp.min.js"></script>
-	
-	<script type="text/javascript" src="js/knockout-2.3.0.js"></script>
-	<script type="text/javascript" src="js/knockout-mapping-2.4.1.js"></script>
-	
-	<script type="text/javascript" src="js/jstorage.min.js"></script>
-	<script type="text/javascript" src="js/appStorage.js"></script>
-	
-	<script type="text/javascript" src="js/toastr.min.js"></script>
-	<script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script>
+    </div>
+        
+    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/openpgp.min.js"></script>
+    
+    <script type="text/javascript" src="js/knockout-2.3.0.js"></script>
+    <script type="text/javascript" src="js/knockout-mapping-2.4.1.js"></script>
+    
+    <script type="text/javascript" src="js/jstorage.min.js"></script>
+    <script type="text/javascript" src="js/appStorage.js"></script>
+    
+    <script type="text/javascript" src="js/toastr.min.js"></script>
+    <script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script>
 
-	<script type="text/javascript" src="js/ArrayBufferBase64.js"></script>
-	<script type="text/javascript" src="js/FileSaver.min.js"></script>
-	<script type="text/javascript" src="js/fileCryptor.js"></script>
-		
-	<script type="text/javascript" src="js/viewModel.js"></script>
-	<script type="text/javascript" src="js/modalManager.js"></script>
-	<script type="text/javascript" src="js/partnerManager.js"></script>
-	<script type="text/javascript" src="js/cryptor.js"></script>
-	
-	<script type="text/javascript" src="js/appEvents.js"></script>
-	<script type="text/javascript" src="js/app.js"></script>
+    <script type="text/javascript" src="js/ArrayBufferBase64.js"></script>
+    <script type="text/javascript" src="js/FileSaver.min.js"></script>
+    <script type="text/javascript" src="js/fileCryptor.js"></script>
+        
+    <script type="text/javascript" src="js/viewModel.js"></script>
+    <script type="text/javascript" src="js/modalManager.js"></script>
+    <script type="text/javascript" src="js/partnerManager.js"></script>
+    <script type="text/javascript" src="js/cryptor.js"></script>
+    
+    <script type="text/javascript" src="js/appEvents.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>
