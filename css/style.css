@@ -8,18 +8,18 @@
 }
 
 .fileCryptionDragArea {
-	border: 5px dashed black;
-	height: 140px;
+    border: 5px dashed black;
+    height: 140px;
 }
 
 .fileCryptionDragArea.dragOver {
-	border: 5px dashed green;
-	color: green;
+    border: 5px dashed green;
+    color: green;
 }
 
 .fileCryptionDragAreaContent {
-	margin-top: -5px;
-	margin-left: -47px;
+    margin-top: -5px;
+    margin-left: -47px;
 }
 
 .welcomeLink {
