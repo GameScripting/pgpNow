@@ -28,15 +28,7 @@ function AppStorage() {
 
     var userNameEntered = false;
     var showModal = function () {
-      modalManager.showModal($("#createNewKeys"), {
-        close: function () {
-          if (!userNameEntered) {
-            setTimeout(function () {
-              showModal();
-            }, 0);
-          }
-        }
-      });
+      $("#createNewKeys").modal("show");
     };
     showModal();
 
@@ -91,16 +83,22 @@ function AppStorage() {
   self.loadState = function (cb) {
     var state = $.jStorage.get(STATE);
     if (!state) {
-      showEnterNewUserNameModal(function (viewModel) {
-        modalManager.closeModal();
-        app.viewModel = viewModel;
-        self.saveState();
+      $("#createNewKeys").modal("show");
+      $("#setNewUsernameForm").submit(function () {
+        $(this).find("input").attr("disabled", true);
+        $(this).find("input:submit").val("Generating key…");
 
-        if (cb) cb();
+        setTimeout(function () {
+          app.viewModel = createNew($("#newUsernameInput").val());
+          self.saveState();
+          $("#createNewKeys").modal("hide");
+        }, 100);
+        return false;
       });
-    } else {
+    }
+    else {
       var partners = ko.mapping.fromJS(state.partners)();
-      partners = partners.map(function(p){
+      partners = partners.map(function (p) {
         return new Partner(p.name, p.publicKey);
       });
       var viewModel = new ViewModel(
