@@ -97,8 +97,7 @@ function AppStorage() {
       });
     }
     else {
-      var partners = ko.mapping.fromJS(state.partners)();
-      partners = partners.map(function (p) {
+      var partners = state.partners.map(function (p) {
         return new Partner(p.name, p.publicKey);
       });
       var viewModel = new ViewModel(
