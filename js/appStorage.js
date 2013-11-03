@@ -96,7 +96,10 @@ function AppStorage(){
 				if(cb) cb();
 			});
 		} else {
-			var partners = ko.mapping.fromJS(state.partners)();
+            var partners = state.partners.map(function(p){
+                return new Partner(p.name, p.publicKey);
+            });
+
 			var viewModel = new ViewModel(
 				state.own.publicKey,
 				state.own.privateKey,
