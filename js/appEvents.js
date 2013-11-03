@@ -22,7 +22,7 @@ function AppEvents(){
     
     self.decryptFromPartner = function(){
 
-        if(!app.viewModel.selectedPartner()){
+        if(!app.viewModel.selectedPartners()[0]){
             toastr.error("Please select a partner to verify the signature against.");
             return;
         }

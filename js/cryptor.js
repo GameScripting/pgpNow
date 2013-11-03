@@ -2,7 +2,7 @@ function Cryptor(){
     var self = this;
 
     function readCryptionDataSync(cb){
-        var publicKeyString = app.viewModel.selectedPartner().publicKey();
+        var publicKeyString = app.viewModel.selectedPartners()[0].publicKey();
         var ownPublicKeyString = app.viewModel.own.publicKey();
         var privateKeyString = app.viewModel.own.privateKey();
 
@@ -81,7 +81,7 @@ function Cryptor(){
             if(signatureValid){
                 if(cb) cb({ success: "Decrypted message, everything ok." }, decrypted.text);
             } else {
-                if(cb) cb(new Error("Signature is not valid for " + app.viewModel.selectedPartner().name()), decrypted.text);
+                if(cb) cb(new Error("Signature is not valid for " + app.viewModel.selectedPartners()[0].name()), decrypted.text);
             }
         });
     };
