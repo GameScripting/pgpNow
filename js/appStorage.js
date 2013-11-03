@@ -44,12 +44,32 @@ function AppStorage(){
 				userNameEntered = true;
 				$("#setNewUsernameButton").attr("disabled", true);
 				setTimeout(function(){
-					if(cb) cb(username);
+                    var viewModel = createNew(username);
+					cb(viewModel);
 				},100);
 			}
 			
 			return false;
 		});
+
+        $("#importExistingKeyButton").click(function(){
+            var privateKeyString = $("#textareaImportExistingKey").val();
+            if(privateKeyString){
+                try {
+                var privateKey = openpgp.read_privateKey(privateKeyString)[0];
+                } catch(err) {
+                    toastr.error("Unable to parse private key. It seems to be broken :(");
+                    $("#textareaImportExistingKey").select();
+                    return;
+                }
+                var publicKeyString = privateKey.extractPublicKey();
+
+                userNameEntered = true;
+
+                var viewModel = new ViewModel(publicKeyString, privateKeyString);
+                cb(viewModel);
+            }
+        });
 	}
 	
 	self.saveState = function(){
@@ -68,9 +88,9 @@ function AppStorage(){
 	self.loadState = function(cb){
 		var state = $.jStorage.get(STATE);
 		if(!state){
-			showEnterNewUserNameModal(function(username){
+			showEnterNewUserNameModal(function(viewModel){
 				modalManager.closeModal();				
-				app.viewModel = createNew(username);
+				app.viewModel = viewModel;
 				self.saveState();
 				
 				if(cb) cb();

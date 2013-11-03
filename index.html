@@ -145,29 +145,47 @@
 		</div>		
 	</div>
 	
-	<div id="createNewKeys" class="mfp-hide white-popup">		
-		<div class="row">
-			<h1 style="font-size: 1.5em;">Welcome to pgpNow :)</h1>
-		</div>
-		<div class="row">
-			<p>With pgpNow you have secure PGP-based encryption right in your browser. I don't have to tell you, that it actually is open source, do I?</p>
-			<p>To get started just enter your name so others know who you are (it will be stored in the public key so others can verify the messages)</p>			
-		</div>
-		
-		<form id="setNewUsernameForm">
-			<div class="row">
-				<label><b>Enter your name</b></label>
-			</div>
-			<div class="row">
-				<input id="newUsernameInput" type="text" />
-			</div>			
-			<div class="row pad-top">
-				<p><small><b>NOTE: </b>Generating the keys may take some seconds. Your browser may hang during that time.</small></p>
-			</div>
-			<div class="row">
-				<input id="setNewUsernameButton" type="submit" class="center" value="Save my name &amp; start pgpNow" />
-			</div>		
-		</form>
+	<div id="createNewKeys" class="mfp-hide white-popup">
+        <div id="welcomeGenerateNewKey">
+            <div class="row">
+                <h1 style="font-size: 1.5em;">Welcome to pgpNow :)</h1>
+            </div>
+            <div class="row">
+                <p>With pgpNow you have secure PGP-based encryption right in your browser. I don't have to tell you, that it actually is open source, do I?</p>
+                <p>To get started just enter your name so others know who you are (it will be stored in the public key so others can verify the messages)</p>
+            </div>
+
+            <form id="setNewUsernameForm">
+                <div class="row">
+                    <label><b>Enter your name</b></label>
+                </div>
+                <div class="row">
+                    <input id="newUsernameInput" type="text" />
+                </div>
+                <div class="row pad-top">
+                    <p><small><b>NOTE: </b>Generating the keys may take some seconds. Your browser may hang during that time.</small></p>
+                </div>
+                <div class="row">
+                    <input id="setNewUsernameButton" type="submit" class="center pull-left" value="Save my name &amp; start pgpNow" />
+                    <a onclick="appEvents.showWelcomeImportExistingKey(); return false;" class="pull-right welcomeLink">Import existing key</a>
+                </div>
+            </form>
+        </div>
+        <div class="hidden" id="welcomeImportExistingKeys">
+            <div class="row">
+                <span style="font-size: 1.3em;"><b>Import existing key</b></span>
+            </div>
+            <div class="row">
+                <p>If you already have a private key, you can import it here.</p>
+            </div>
+            <div class="row">
+                <textarea id="textareaImportExistingKey"></textarea>
+            </div>
+            <div class="row pad-top">
+                <button id="importExistingKeyButton" class="pull-left">Import key & start pgpNow</button>
+                <a onclick="appEvents.showWelcomeGenerateNewKey(); return false;" class="pull-right welcomeLink">Cancel</a>
+            </div>
+        </div>
 	</div>
 		
 	<script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>

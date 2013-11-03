@@ -47,4 +47,16 @@ function AppEvents(){
 		$("#privateKeyContainer").removeClass("hidden");
 		$("#showPrivateKeyLinkContainer").addClass("hidden");
 	};
+
+    self.showWelcomeImportExistingKey = function(){
+        $("#welcomeGenerateNewKey").addClass("hidden");
+        $("#welcomeImportExistingKeys").removeClass("hidden");
+        $("#textareaImportExistingKey").focus();
+    };
+
+    self.showWelcomeGenerateNewKey = function() {
+        $("#welcomeImportExistingKeys").addClass("hidden");
+        $("#welcomeGenerateNewKey").removeClass("hidden");
+        $("#newUsernameInput").focus();
+    };
 }
