@@ -2,13 +2,8 @@ function AppEvents(){
 	var self = this;
 	
 	self.encryptForPartner = function(){
-		
-		if(!app.viewModel.selectedPartner()){
-			toastr.error("Please select a partner first");
-			return;
-		}
-
-		var publicKeyString = app.viewModel.selectedPartner().publicKey();
+    // TODO: use all selectedPartners, not just the first
+		var publicKeyString = app.viewModel.selectedPartners()[0].publicKey();
 		var ownPublicKeyString = app.viewModel.own.publicKey();
 		var privateKeyString = app.viewModel.own.privateKey();
 						
@@ -29,13 +24,8 @@ function AppEvents(){
 	};
 	
 	self.decryptFromPartner = function(){
-		
-		if(!app.viewModel.selectedPartner()){
-			toastr.error("Please select a partner to verify the signature against.");
-			return;
-		}
-		
-		var publicKeyString = app.viewModel.selectedPartner().publicKey();
+    // TODO: use all selectedPartners, not just the first
+		var publicKeyString = app.viewModel.selectedPartners()[0].publicKey();
 		var ownPublicKeyString = app.viewModel.own.publicKey();
 		var privateKeyString = app.viewModel.own.privateKey();
 						

@@ -14,8 +14,7 @@ function AppStorage() {
     var privateKey = keyPair.privateKeyArmored;
     var publicKey = keyPair.publicKeyArmored;
 
-    var viewModel = new ViewModel(publicKey, privateKey);
-    return viewModel;
+    return new ViewModel(publicKey, privateKey);
   }
 
   self.saveState = function () {
@@ -39,7 +38,6 @@ function AppStorage() {
         $(this).find("input").attr("disabled", true);
         $(this).find("input:submit").val("Generating key…");
 
-        // TODO: Das hier asynchron?
         setTimeout(function () {
           app.viewModel = createNew($("#newUsernameInput").val());
           self.saveState();
@@ -58,7 +56,6 @@ function AppStorage() {
     else {
       var partners = ko.mapping.fromJS(state.partners)();
       partners.forEach(function(partner) {
-        partner.active(false);
         partner.toggle = function() {
           if (partner.active()) {
             partner.active(false);

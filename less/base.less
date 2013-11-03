@@ -1,0 +1,20 @@
+.contact_list {
+  list-style: none;
+  display: inline;
+  padding: 0;
+
+  li {
+    display: inline;
+
+    &:after {
+      content: ", ";
+    }
+    &:last-child:after {
+      content: "";
+    }
+  }
+}
+
+.nav-tabs {
+  margin-bottom: 15px;
+}

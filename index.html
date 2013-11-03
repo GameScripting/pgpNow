@@ -79,99 +79,96 @@
     </header>
     <div class="container">
       <div class="row" id="errors"></div>
-
       <div class="row">
 
         <div class="col-sm-4">
           <p><strong>My contacts</strong></p>
 
           <div class="list-group" id="contact-list" data-bind="foreach: partners">
-              <a href="#" class="list-group-item" data-bind="text: name, css: {active: active() == true}, click: toggle"></a>
+            <a href="#" class="list-group-item"
+               data-bind="text: name, css: {active: active() == true}, click: toggle"></a>
           </div>
-          <span data-bind="text: selectedPartners"></span>
-
-
-          <!--
-          <select size="4" class="form-control" data-bind="options: partners,
-								   optionsText: 'name',
-								   value: selectedPartner"></select>
--->
 
           <a onclick="partnerManager.showNewPartnerModal()" class="glyphicon glyphicon-plus"></a>
           <a onclick="partnerManager.removeSelected()" class="glyphicon glyphicon-minus"></a>
         </div>
-
         <div class="col-sm-8">
-          <!-- ko if: partners -->
-          <label for="encryptTextArea">
-            Encrypt for <strong><span data-bind="text: partners.name"></span></strong>
-          </label>
-          <textarea id="encryptTextArea"></textarea>
-          <button onclick="appEvents.encryptForPartner()">Encrypt</button>
-          <!-- /ko -->
-          <!-- TODO: Am I blind or is there no "else" in knockout?! -->
-          <!-- ko if: !partners -->
-          <p>
-            Please select at least one contact to encrypt a message. If you want to decrypt a message, it is
-            <strong>highly recommended</strong> to select a person to be able to verify the signature.
-          </p>
-          <!-- /ko -->
 
-          <div>
 
-            <label for="decryptTextArea">
-              <span>Decrypt</span>
-              <!-- ko if: partners -->
-              <span> (checking signature for</span>
-              <b><span data-bind="text: partners.name"></span></b>
-              <span>)</span>
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#encryptTab" data-toggle="tab">Encrypt</a></li>
+            <li><a href="#decryptTab" data-toggle="tab">Decrypt</a></li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div class="tab-pane active" id="encryptTab">
+              <!-- ko if: selectedPartners().length -->
+              <div class="form-group">
+                <label for="encryptTextArea">Your text</label>
+                <textarea id="encryptTextArea" class="form-control"></textarea>
+              </div>
+              <button onclick="appEvents.encryptForPartner()" class="form-control">Encrypt</button>
               <!-- /ko -->
-            </label>
+            </div>
 
-
-            <textarea id="decryptTextArea"></textarea>
-
-
-            <button onclick="appEvents.decryptFromPartner()">Decrypt</button>
-
+            <div class="tab-pane" id="decryptTab">
+              <!-- ko if: selectedPartners().length -->
+              <div class="form-group">
+                <div class="form-group">
+                  <label for="decryptTextArea">Received chiffre</label>
+                  <textarea id="decryptTextArea" class="form-control"></textarea>
+                </div>
+                <button onclick="appEvents.decryptFromPartner()" class="form-control">Decrypt</button>
+              </div>
+              <!-- /ko -->
+            </div>
+            <!-- ko if: !selectedPartners().length -->
+            <p>
+              Please select at least one contact to encrypt a message. If you want to decrypt a message, it is
+              <strong>highly recommended</strong> to select a person to be able to verify the signature.
+            </p>
+            <!-- /ko -->
           </div>
         </div>
-        <!--<div id="ownKeysBox" class="mfp-hide white-popup">
+      </div>
+
+      <!--<div id="ownKeysBox" class="mfp-hide white-popup">
 
 
-          <label>Public (give this to your friends)</label>
+        <label>Public (give this to your friends)</label>
 
 
-          <textarea onclick="this.select()"
-                    data-bind="value: own.publicKey"></textarea>
+        <textarea onclick="this.select()"
+                  data-bind="value: own.publicKey"></textarea>
 
 
-          <label>Private (give this to NOBODY!)</label>
+        <label>Private (give this to NOBODY!)</label>
 
 
-          <textarea onclick="this.select()"
-                    data-bind="value: own.privateKey"></textarea>
+        <textarea onclick="this.select()"
+                  data-bind="value: own.privateKey"></textarea>
 
 
-        </div>
+      </div>
 
-        <div id="editPartner" class="mfp-hide white-popup">
+      <div id="editPartner" class="mfp-hide white-popup">
 
-          <label>Public key</label>
-
-
-          <textarea id="partnerPublicKey"
-                    data-bind="value: tmp.editPartnerPublicKey"></textarea>
+        <label>Public key</label>
 
 
-          <button class="block" onclick="partnerManager.savePartner()">Save Partner</button>
+        <textarea id="partnerPublicKey"
+                  data-bind="value: tmp.editPartnerPublicKey"></textarea>
 
 
-          &lt;!&ndash;<button class="block" onclick="modalManager.closeModal()">Cancel</button>&ndash;&gt;
+        <button class="block" onclick="partnerManager.savePartner()">Save Partner</button>
+
+
+        &lt;!&ndash;<button class="block" onclick="modalManager.closeModal()">Cancel</button>&ndash;&gt;
 
 
         </div>-->
-      </div>
     </div>
 
     <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
@@ -188,7 +185,6 @@
     <script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script>
 
     <script type="text/javascript" src="js/viewModel.js"></script>
-    <script type="text/javascript" src="js/modalManager.js"></script>
     <script type="text/javascript" src="js/partnerManager.js"></script>
 
     <script type="text/javascript" src="js/appEvents.js"></script>

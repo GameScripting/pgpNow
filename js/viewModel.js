@@ -7,11 +7,11 @@ function ViewModel(publicKey, privateKey, partners) {
   });
 
   self.partners = ko.observableArray(partners);
-  self.selectedPartners = ko.dependentObservable(function() {
+  self.selectedPartners = ko.computed(function() {
     return ko.utils.arrayFilter(self.partners(), function (partner) {
-      return partner.active == true;
+      return partner.active() == true;
     });
-  }, self);
+  });
   self.tmp = {
     editPartnerPublicKey: ko.observable()
   };
@@ -29,5 +29,6 @@ function Partner(name, publicKey) {
     } else {
       self.active(true);
     }
+
   };
 }

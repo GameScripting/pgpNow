@@ -5,9 +5,9 @@ function showMessages(content){
 function App(){
 	var self = this;
 	
-	self.load = function (cb) {
-		appStorage.loadState(cb);
-	};
+	self.load = function (callback) {
+		appStorage.loadState(callback);
+  };
 	
 	self.addPartner = function(name, publicKey){
 		var newPartner = new Partner(name, publicKey);
@@ -30,13 +30,15 @@ function setupPopups(){
 $(function(){
 	window.app = new App();
 	window.appEvents = new AppEvents();
-	window.modalManager = new ModalManager();
 	window.partnerManager = new PartnerManager();
 	window.appStorage = new AppStorage();
 	
 	setupPopups();	
 	openpgp.init();	
 	app.load(function(){
-		ko.applyBindings(app.viewModel);		
+      app.viewModel.selectedPartners.subscribe(function(partners) {
+        appStorage.saveState();
+      });
+      ko.applyBindings(app.viewModel);
 	});
 });
