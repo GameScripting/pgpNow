@@ -6,3 +6,22 @@
   max-width: 500px;
   margin: 20px auto;
 }
+
+.fileCryptionDragArea {
+	border: 5px dashed black;
+	height: 140px;
+}
+
+.fileCryptionDragArea.dragOver {
+	border: 5px dashed green;
+	color: green;
+}
+
+.fileCryptionDragAreaContent {
+	margin-top: -5px;
+	margin-left: -47px;
+}
+
+.welcomeLink {
+    margin-top: 6px;
+}
