@@ -29,6 +29,5 @@ function Partner(name, publicKey) {
     } else {
       self.active(true);
     }
-
   };
 }
