@@ -1,215 +1,246 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html xmlns="http://www.w3.org/1999/html">
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-
     <title>pgpNow - Instant PGP encryption and decryption in your browser</title>
-    <meta name="description" content="With pgpNow you have secure PGP-based encryption right in your browser. The en- and decryption is all done inside of your local browser, you don't have to trust anybody. If you don't trust me with the code, just fork away and assure yourself. It's open source under MIT licence.">
-    <meta name="author" content="Daniel Huhn">
-    <meta name="keywords" content="pgp encryption browser secure open source decryption instant offline MIT licence">
-        
-    <link type="text/css" rel="stylesheet" href="css/groundwork.css" />
-    <link type="text/css" rel="stylesheet" href="css/toastr.min.css" />
-    <link type="text/css" rel="stylesheet" href="css/magnific-popup.css" />
-    
-    <link type="text/css" rel="stylesheet" href="css/style.css" />    
-</head>
-<body>
-    
-    <div class="padded">
-        <div class="one fifth">
-            <div class="row">
-                <label><b>Keys</b></label>
+
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+  </head>
+  <body>
+
+    <div id="createNewKeys" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form id="setNewUsernameForm">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Welcome to pgpNow</h4>
             </div>
-            <div class="row">
-                <button id="showOwnKeysButton" class="block">Show my keys</button>
+            <div class="modal-body">
+              <p>
+                With pgpNow you have secure PGP-based encryption right in your browser. Start off by
+                <strong>generating</strong> a PGP Key or <strong>import</strong> an existing one.
+              </p>
+
+              <p>
+                To get started just enter your name so others know who you are (it will be stored in the public key so
+                others can verify the messages)
+              </p>
+
+              <div class="form-group">
+                <label for="newUsernameInput">Enter your name</label>
+                <input id="newUsernameInput" type="text" class="form-control" placeholder="John Doe"/>
+
+                <p class="help-block">
+                  <strong>Note: </strong>
+                  Generating your keys may take some seconds. Your browser may hang during that time.
+                </p>
+              </div>
             </div>
-            <div class="pad-top row">
-                <label>People</label>
+            <div class="modal-footer">
+              <input type="submit" class="btn btn-primary" value="Save and get started"/>
             </div>
-            <div class="row">
-                <select size="4" data-bind="options: partners,
-                                   optionsText: 'name',
-                                   value: selectedPartner"></select>
-            </div>
-            <div class="row">                
-                <button onclick="partnerManager.showNewPartnerModal()" class="one half">+</button>
-                <button onclick="partnerManager.removeSelected()" class="one half">-</button>        
-            </div>
+          </form>
         </div>
-        <div class="pad-left four fifth">
-            <div class="row">
-                <div class="row">
-                    <label><b>Encryption</b></label>                
-                </div>
-                <div class="row">                
-                    <div>
-                        <label>
-                            <span>Encrypt</span>
-                            <!-- ko if: selectedPartner() -->
-                            <span> for</span>
-                            <b><span data-bind="text: selectedPartner().name"></span></b>
-                            <!-- /ko -->
-                        </label>
-                    </div>                    
-                </div>        
-                <div class="row">
-                    <div class="two third">
-                        <textarea id="encryptTextArea"></textarea>
-                    </div>
-                    <div class="one third pad-left">
-                        <div class="relative fileCryptionDragArea" id="fileEncryptionDragArea">
-                            <div class="fileCryptionDragAreaContent absolute middle center">
-                                <p>Drag to encrypt</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>    
-                <div class="row half-pad-top">
-                    <button onclick="appEvents.encryptForPartner()">Encrypt</button>
-                </div>
-            </div>
-            <div>                
-                <div class="row pad-top">    
-                    <label>
-                        <span>Decrypt</span>
-                        <!-- ko if: selectedPartner() -->
-                        <span> (checking signature for</span>
-                        <b><span data-bind="text: selectedPartner().name"></span></b>
-                        <span>)</span>
-                        <!-- /ko -->
-                    </label>            
-                </div>        
-                <div class="row">
-                    <div class="two third">
-                        <textarea id="decryptTextArea"></textarea>
-                    </div>
-                    <div class="one third pad-left">
-                        <div class="relative fileCryptionDragArea" id="fileDecryptionDragArea">
-                            <div class="fileCryptionDragAreaContent absolute middle center">
-                                <p>Drag to decrypt</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>    
-                <div class="row half-pad-top">
-                    <button onclick="appEvents.decryptFromPartner()">Decrypt</button>
-                </div>
-            </div>                
-        </div>
+      </div>
     </div>
-    
-    <div id="ownKeysBox" class="mfp-hide white-popup">
-        <div class="row">
-            <div class="row">
-                <label title="You can give this to anybody"><b>Public key</b></label>
+    <div id="editPartner" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Add a contact</h4>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="partnerPublicKey">Public key</label>
+              <textarea id="partnerPublicKey"
+                        data-bind="value: tmp.editPartnerPublicKey" class="form-control" rows="25"></textarea>
             </div>
-            <div class="row">
-                <textarea onclick="this.select()"
-                          data-bind="value: own.publicKey"></textarea>
-            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button class="btn btn-primary" onclick="partnerManager.savePartner()">Save</button>
+          </div>
         </div>
-        <div id="showPrivateKeyLinkContainer" class="row pad-top">
-            <p><a onclick="appEvents.displayPrivateKey()" href="#">Show my private key</a></p>
-        </div>
-        <div id="privateKeyContainer" class="hidden row pad-top">
-            <div class="row">
-                <label><b>Private key</b></label>
-            </div>
-            <div class="row">
-                <p class="red box">This is your private key. You must <b>NEVER</b> give it to <b>anyone!</b></p>
-            </div>
-            <div class="row">
-                <textarea onclick="this.select()"
-                          data-bind="value: own.privateKey"></textarea>
-            </div>
-        </div>
+      </div>
     </div>
-    
-    <div id="editPartner" class="mfp-hide white-popup">        
-        <div class="row">
-            <label>Public key</label>
-        </div>
-        <div class="row">            
-            <textarea id="partnerPublicKey"
-                      data-bind="value: tmp.editPartnerPublicKey"></textarea>            
-        </div>
-        <div class="row pad-top">
-            <div class="one half half-pad-right">
-                <button class="block" onclick="partnerManager.savePartner()">Save Partner</button>
+    <div id="settings" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Settings</h4>
+          </div>
+
+          <div class="modal-body">
+            <div class="panel-group" id="settingsAccordion">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#settingsAccordion" href="#ownPublicKeyPanel">
+                    Public key
+                  </a>
+                  </h4>
+                </div>
+                <div id="ownPublicKeyPanel" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <div class="form-group">
+                      <label for="ownPublicKey">Share this key with everyone you would like to communicate with</label>
+                      <textarea class="pgpkey form-control" data-bind="text: own.publicKey" rows="20" id="ownPublicKey"readonly></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-danger">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                  <a data-toggle="collapse" data-parent="#settingsAccordion" href="#ownPrivateKeyPanel">
+                    Private key
+                  </a>
+                  </h4>
+                </div>
+                <div id="ownPrivateKeyPanel" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <div class="form-group">
+                      <label for="ownPrivateKey">Never pass your private key to <em>anyone</em>!</label>
+                      <textarea class="pgpkey form-control" data-bind="text: own.privateKey" rows="20" id="ownPrivateKey"
+                                readonly></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="one half half-pad-left">
-                <button class="block" onclick="modalManager.closeModal()">Cancel</button>
-            </div>
-        </div>        
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
     </div>
-    
-    <div id="createNewKeys" class="mfp-hide white-popup">
-        <div id="welcomeGenerateNewKey">
-            <div class="row">
-                <h1 style="font-size: 1.5em;">Welcome to pgpNow :)</h1>
-            </div>
-            <div class="row">
-                <p>With pgpNow you have secure PGP-based encryption right in your browser. I don't have to tell you, that it actually is open source, do I?</p>
-                <p>To get started just enter your name so others know who you are (it will be stored in the public key so others can verify the messages)</p>
+
+    <header class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <span class="navbar-brand">pgpNow</span>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a id="settingsButton" class="glyphicon glyphicon-cog" href="#"></a></li>
+        </ul>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row" id="errors"></div>
+      <div class="row">
+
+        <div class="col-sm-4">
+          <p><strong>My contacts</strong></p>
+
+          <div class="list-group" id="contact-list" data-bind="foreach: partners">
+            <a href="#" class="list-group-item"
+               data-bind="text: name, css: {active: active() == true}, click: toggle"></a>
+          </div>
+
+          <a onclick="partnerManager.showNewPartnerModal()" class="glyphicon glyphicon-plus"></a>
+          <a onclick="partnerManager.removeSelected()" class="glyphicon glyphicon-minus"></a>
+        </div>
+        <div class="col-sm-8">
+
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#encryptTab" data-toggle="tab">Encrypt</a></li>
+            <li><a href="#decryptTab" data-toggle="tab">Decrypt</a></li>
+          </ul>
+
+          <div class="tab-content">
+            <div class="tab-pane active" id="encryptTab">
+              <!-- ko if: selectedPartners().length -->
+              <div class="form-group">
+                <label for="encryptTextArea">Your message</label>
+                <textarea id="encryptTextArea" class="form-control"></textarea>
+              </div>
+              <button onclick="appEvents.encryptForPartner()" class="form-control">Encrypt</button>
+              <!-- /ko -->
             </div>
 
-            <form id="setNewUsernameForm">
-                <div class="row">
-                    <label><b>Enter your name</b></label>
+            <div class="tab-pane" id="decryptTab">
+              <!-- ko if: selectedPartners().length -->
+              <div class="form-group">
+                <div class="form-group">
+                  <label for="decryptTextArea">Received chiffre</label>
+                  <textarea id="decryptTextArea" class="form-control"></textarea>
                 </div>
-                <div class="row">
-                    <input id="newUsernameInput" type="text" />
-                </div>
-                <div class="row pad-top">
-                    <p><small><b>NOTE: </b>Generating the keys may take some seconds. Your browser may hang during that time.</small></p>
-                </div>
-                <div class="row">
-                    <input id="setNewUsernameButton" type="submit" class="center pull-left" value="Save my name &amp; start pgpNow" />
-                    <a onclick="appEvents.showWelcomeImportExistingKey(); return false;" class="pull-right welcomeLink">Import existing key</a>
-                </div>
-            </form>
+                <button onclick="appEvents.decryptFromPartner()" class="form-control">Decrypt</button>
+              </div>
+              <!-- /ko -->
+            </div>
+            <!-- ko if: !selectedPartners().length -->
+            <p>
+              Please select at least one contact to encrypt a message. If you want to decrypt a message, it is
+              <strong>highly recommended</strong> to select a person to be able to verify the signature.
+            </p>
+            <!-- /ko -->
+          </div>
         </div>
-        <div class="hidden" id="welcomeImportExistingKeys">
-            <div class="row">
-                <span style="font-size: 1.3em;"><b>Import existing key</b></span>
-            </div>
-            <div class="row">
-                <p>If you already have a private key, you can import it here.</p>
-            </div>
-            <div class="row">
-                <textarea id="textareaImportExistingKey"></textarea>
-            </div>
-            <div class="row pad-top">
-                <button id="importExistingKeyButton" class="pull-left">Import key & start pgpNow</button>
-                <a onclick="appEvents.showWelcomeGenerateNewKey(); return false;" class="pull-right welcomeLink">Cancel</a>
-            </div>
-        </div>
+      </div>
+
+      <!--<div id="ownKeysBox" class="mfp-hide white-popup">
+
+
+        <label>Public (give this to your friends)</label>
+
+
+        <textarea onclick="this.select()"
+                  data-bind="value: own.publicKey"></textarea>
+
+
+        <label>Private (give this to NOBODY!)</label>
+
+
+        <textarea onclick="this.select()"
+                  data-bind="value: own.privateKey"></textarea>
+
+
+      </div>
+
+      <div id="editPartner" class="mfp-hide white-popup">
+
+        <label>Public key</label>
+
+
+        <textarea id="partnerPublicKey"
+                  data-bind="value: tmp.editPartnerPublicKey"></textarea>
+
+
+        <button class="block" onclick="partnerManager.savePartner()">Save Partner</button>
+
+
+        &lt;!&ndash;<button class="block" onclick="modalManager.closeModal()">Cancel</button>&ndash;&gt;
+
+
+        </div>-->
     </div>
-        
+
     <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/openpgp.min.js"></script>
-    
+    <script type="text/javascript" src="js/cryptor.js"></script>
+    <script type="text/javascript" src="js/fileCryptor.js"></script>
+
     <script type="text/javascript" src="js/knockout-2.3.0.js"></script>
     <script type="text/javascript" src="js/knockout-mapping-2.4.1.js"></script>
-    
+
     <script type="text/javascript" src="js/jstorage.min.js"></script>
     <script type="text/javascript" src="js/appStorage.js"></script>
-    
+
     <script type="text/javascript" src="js/toastr.min.js"></script>
     <script type="text/javascript" src="js/jquery.magnific-popup.min.js"></script>
 
-    <script type="text/javascript" src="js/ArrayBufferBase64.js"></script>
-    <script type="text/javascript" src="js/FileSaver.min.js"></script>
-    <script type="text/javascript" src="js/fileCryptor.js"></script>
-        
     <script type="text/javascript" src="js/viewModel.js"></script>
-    <script type="text/javascript" src="js/modalManager.js"></script>
     <script type="text/javascript" src="js/partnerManager.js"></script>
-    <script type="text/javascript" src="js/cryptor.js"></script>
-    
+
     <script type="text/javascript" src="js/appEvents.js"></script>
     <script type="text/javascript" src="js/app.js"></script>
-</body>
+  </body>
 </html>
