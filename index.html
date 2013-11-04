@@ -66,6 +66,56 @@
         </div>
       </div>
     </div>
+    <div id="settings" class="modal fade">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Settings</h4>
+          </div>
+
+          <div class="modal-body">
+            <div class="panel-group" id="settingsAccordion">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <a data-toggle="collapse" data-parent="#settingsAccordion" href="#ownPublicKeyPanel">
+                    Public key
+                  </a>
+                </div>
+                <div id="ownPublicKeyPanel" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <div class="form-group">
+                      <label for="ownPublicKey">Share this key with everyone you would like to communicate with</label>
+                      <textarea class="pgpkey form-control" data-bind="text: own.publicKey" rows="20" id="ownPublicKey"readonly></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-danger">
+                <div class="panel-heading">
+                  <a data-toggle="collapse" data-parent="#settingsAccordion" href="#ownPrivateKeyPanel">
+                    Private key
+                  </a>
+                </div>
+                <div id="ownPrivateKeyPanel" class="panel-collapse collapse">
+                  <div class="panel-body">
+                    <div class="form-group">
+                      <label for="ownPrivateKey">Never pass your private key to <em>anyone</em>!</label>
+                      <textarea class="pgpkey form-control" data-bind="text: own.privateKey" rows="20" id="ownPrivateKey"
+                                readonly></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <header class="navbar navbar-default">
       <div class="container">
@@ -73,7 +123,7 @@
           <span class="navbar-brand">pgpNow</span>
         </div>
         <ul class="nav navbar-nav navbar-right">
-          <li><a id="showOwnKeysButton" class="glyphicon glyphicon-cog" href="#"></a></li>
+          <li><a id="settingsButton" class="glyphicon glyphicon-cog" href="#"></a></li>
         </ul>
       </div>
     </header>
@@ -103,7 +153,7 @@
             <div class="tab-pane active" id="encryptTab">
               <!-- ko if: selectedPartners().length -->
               <div class="form-group">
-                <label for="encryptTextArea">Your text</label>
+                <label for="encryptTextArea">Your message</label>
                 <textarea id="encryptTextArea" class="form-control"></textarea>
               </div>
               <button onclick="appEvents.encryptForPartner()" class="form-control">Encrypt</button>

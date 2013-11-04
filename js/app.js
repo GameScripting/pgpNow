@@ -17,15 +17,6 @@ function App(){
 }
 
 function setupDom(){
-	
-	$('#showOwnKeysButton').magnificPopup({
-	  items: {
-	      src: $("#ownKeysBox"),
-	      type: 'inline',
-	      midClick: true
-	  }
-	});
-
 	// ensure the browser will not open dragged files
 	window.addEventListener("dragover",function(e){
 	  e = e || event;
@@ -56,4 +47,12 @@ $(function(){
       });
       ko.applyBindings(app.viewModel);
 	});
+
+  $("#settingsButton").click(function() {
+    $("#settings").modal("show");
+  });
+
+  $(".pgpkey").click(function() {
+    $(this).select();
+  });
 });
